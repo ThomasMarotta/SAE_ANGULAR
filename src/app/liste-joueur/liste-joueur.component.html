@@ -1,0 +1,9 @@
+<p>Les Joueurs</p>
+<ul>
+  <li *ngFor="let joueur of joueurs">
+    {{ joueur.Pseudo }}
+    <button class="btn btn-primary" [routerLink]="'/joueur/detail/' + joueur.Pseudo">Détails du Joueur</button>
+
+  </li>
+</ul>
+<router-outlet></router-outlet>
