@@ -1,14 +1,19 @@
+// mon-composant.component.ts
 import { Component } from '@angular/core';
-import { JoueurService } from '../joueur.service'; // Correct path to joueur service
-import { FormsModule } from '@angular/forms'; // Import FormsModule directly, not inside @Component
-import { NgIf } from '@angular/common'; // Import NgIf directly, not inside @Component
+import { JoueurService } from '../joueur.service';
+import {FormsModule} from "@angular/forms";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-ajout-joueur',
   templateUrl: './ajout-joueur.component.html',
   styleUrls: ['./ajout-joueur.component.css'],
   standalone: true,
-  providers: [JoueurService] // Add JoueurService to providers
+  imports: [
+    FormsModule,
+    NgIf
+  ],
+  providers: [JoueurService]
 })
 export class AjoutJoueurComponent {
   nouveauJoueur = {
@@ -19,16 +24,22 @@ export class AjoutJoueurComponent {
     sexe: ''
   };
 
-  constructor(private joueurService: JoueurService) {}
+  message: string | undefined;
+
+  constructor(private joueurService: JoueurService) { }
 
   ajouterJoueur() {
-    console.log('Nouveau joueur ajouté:', this.nouveauJoueur);
-    this.nouveauJoueur = {
-      pseudo: '',
-      nom: '',
-      prenom: '',
-      dateDeNaissance: '',
-      sexe: ''
-    };
+    this.joueurService.ajouterJoueur(
+      this.nouveauJoueur.pseudo,
+      this.nouveauJoueur.nom,
+      this.nouveauJoueur.prenom,
+      this.nouveauJoueur.dateDeNaissance,
+      this.nouveauJoueur.sexe
+    ).subscribe(
+      response => {
+        this.message = response.message;
+        console.log('Réponse de l\'API :', response);
+      },
+    );
   }
 }

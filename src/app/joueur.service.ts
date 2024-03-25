@@ -15,13 +15,12 @@ export class JoueurService {
   }
 
   getJoueurUnique(pseudo: string | undefined): Observable<any> {
-    return this.http.get<any>(`/api/joueur/details&Pseudo=${pseudo}`);
+    return this.http.get<any>(`/api/joueurs/details&Pseudo=${pseudo}`);
   }
-
-  ajouterJoueur(pseudo: string, nom: string, prenom: string, dateDeNaissance: string, sexe: string) {
-    const joueurData = {"pseudo" : pseudo, "nom" : nom, "prenom" : prenom, "dateDeNaissance" : dateDeNaissance , "sexe" : sexe}
+  ajouterJoueur(pseudo: string, nom: string, prenom: string, dateDeNaissance: string, sexe: string): Observable<any> {
+    const joueurData = { pseudo, nom, prenom, dateDeNaissance, sexe };
     console.log(joueurData)
-    this.http.post<any>('/api/joueurs/ajouterJoueur', joueurData);
+    return this.http.post<JSON>(`/api/joueurs/ajouterJoueur`, joueurData);
   }
 }
 
